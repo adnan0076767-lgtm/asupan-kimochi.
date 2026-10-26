@@ -1,0 +1,631 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090611">
+  <meta name="description" content="Asupan Kimochi — portal komunitas digital.">
+  <title>ASUPAN KIMOCHI | Member Portal</title>
+
+  <style>
+    :root {
+      --bg: #090611;
+      --panel: #151020;
+      --pink: #ff4fa3;
+      --purple: #a66cff;
+      --text: #f9f4ff;
+      --muted: #a99bb8;
+      --border: rgba(255,255,255,.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top left, #301039 0, transparent 45%),
+        radial-gradient(ellipse at bottom right, #19123e 0, transparent 45%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+
+    button { cursor: pointer; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 20px 6%;
+      border-bottom: 1px solid var(--border);
+      background: rgba(9,6,17,.7);
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      font-size: 19px;
+    }
+
+    .brand span { color: var(--pink); }
+
+    .tag {
+      color: #ffc1e1;
+      font-size: 11px;
+      border: 1px solid #713456;
+      border-radius: 20px;
+      padding: 7px 11px;
+    }
+
+    main {
+      width: min(1050px, 92%);
+      margin: 55px auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      color: var(--pink);
+      letter-spacing: 4px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(36px, 7vw, 68px);
+      line-height: 1.05;
+      margin: 17px 0;
+      letter-spacing: -2px;
+    }
+
+    h1 span {
+      color: var(--pink);
+      text-shadow: 0 0 35px #ff4fa344;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 540px;
+      margin: auto;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .info, .auth, .dashboard {
+      background: rgba(21,16,32,.92);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 70px #0003;
+    }
+
+    .info h2 { font-size: 25px; }
+
+    .feature {
+      display: flex;
+      gap: 14px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature:last-child { border-bottom: 0; }
+
+    .feature-icon {
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      display: grid;
+      place-items: center;
+      background: #ff4fa315;
+      border: 1px solid #ff4fa344;
+      border-radius: 13px;
+      font-size: 20px;
+    }
+
+    .feature strong { display: block; margin-bottom: 5px; }
+
+    .feature p, .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      padding: 5px;
+      background: #090611;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      padding: 11px 5px;
+      border: 0;
+      color: var(--muted);
+      background: transparent;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: #32203b;
+      color: white;
+    }
+
+    .auth h2 { margin: 0 0 8px; font-size: 24px; }
+
+    .auth .small { margin-bottom: 23px; }
+
+    .field { margin-bottom: 17px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #e7d9f2;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #392c48;
+      border-radius: 11px;
+      background: #0d0915;
+      color: white;
+      outline: none;
+    }
+
+    input:focus { border-color: var(--pink); }
+
+    .password-wrap { position: relative; }
+
+    .password-wrap input { padding-right: 65px; }
+
+    .show-pass {
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--pink);
+      background: none;
+      border: 0;
+      font-size: 11px;
+    }
+
+    .primary {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 11px;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(100deg, #ff3895, #a34dff);
+      box-shadow: 0 8px 25px #e83b9327;
+    }
+
+    .primary:hover { filter: brightness(1.12); }
+
+    .notice {
+      display: none;
+      padding: 12px;
+      margin: 15px 0 0;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .notice.show { display: block; }
+    .notice.error { background: #70222b44; color: #ffb5c0; }
+    .notice.success { background: #176c4644; color: #a8ffd1; }
+
+    .fineprint {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .dashboard { margin-top: 25px; display: none; }
+    .dashboard h2 { margin-top: 0; }
+
+    .account-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+
+    .secondary {
+      border: 1px solid #67445f;
+      border-radius: 9px;
+      padding: 9px 12px;
+      color: #ffd2e9;
+      background: #281526;
+    }
+
+    .muted-button {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 10px 13px;
+      border-radius: 9px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #776c85;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      main { margin: 35px auto; }
+      .layout { grid-template-columns: 1fr; }
+      .info, .auth, .dashboard { padding: 22px; }
+      .hero { margin-bottom: 28px; }
+      h1 { letter-spacing: -1px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">ASUPAN <span>KIMOCHI.</span></div>
+    <div class="tag">COMMUNITY PORTAL</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">WELCOME TO OUR COMMUNITY</div>
+      <h1>YOUR WORLD.<br><span>YOUR KIMOCHI.</span></h1>
+      <p class="subtitle">
+        Selamat datang di Asupan Kimochi. Buat akun demo
+        dan jelajahi portal komunitas digital kami.
+      </p>
+    </section>
+
+    <div class="layout">
+      <section class="info">
+        <div class="eyebrow">WHY JOIN US?</div>
+        <h2>Satu portal, banyak kemungkinan.</h2>
+        <p class="small">
+          Ruang digital dengan tampilan modern untuk komunitas
+          dan pengembangan layanan online.
+        </p>
+
+        <div class="feature">
+          <div class="feature-icon">🔐</div>
+          <div>
+            <strong>Akun personal</strong>
+            <p>Demo formulir pendaftaran dan login untuk pengujian tampilan.</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✨</div>
+          <div>
+            <strong>Modern experience</strong>
+            <p>Desain responsif dengan warna neon dan antarmuka minimalis.</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div>
+            <strong>Siap untuk mobile</strong>
+            <p>Tampilan menyesuaikan layar HP, tablet, dan komputer.</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🌐</div>
+          <div>
+            <strong>Rencana pengembangan</strong>
+            <p>Backend dan database online dapat ditambahkan pada tahap berikutnya.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth">
+        <div class="tabs">
+          <button class="tab active" id="loginTab" type="button">Login</button>
+          <button class="tab" id="registerTab" type="button">Daftar</button>
+        </div>
+
+        <div id="authForm">
+          <h2 id="formTitle">Welcome back!</h2>
+          <p class="small" id="formSubtitle">Masuk ke akun demo kamu.</p>
+
+          <form id="accountForm">
+            <div class="field" id="nameField" hidden>
+              <label for="name">NAMA PANGGILAN</label>
+              <input id="name" name="name" type="text"
+                maxlength="50" autocomplete="nickname"
+                placeholder="Nama kamu">
+            </div>
+
+            <div class="field">
+              <label for="email">EMAIL</label>
+              <input id="email" name="email" type="email"
+                maxlength="254" autocomplete="email"
+                placeholder="nama@email.com" required>
+            </div>
+
+            <div class="field">
+              <label for="password">KATA SANDI DEMO</label>
+              <div class="password-wrap">
+                <input id="password" name="password" type="password"
+                  minlength="8" maxlength="128"
+                  autocomplete="current-password"
+                  placeholder="Minimal 8 karakter" required>
+                <button class="show-pass" type="button"
+                  id="togglePassword">LIHAT</button>
+              </div>
+            </div>
+
+            <button class="primary" type="submit" id="submitButton">
+              MASUK SEKARANG →
+            </button>
+          </form>
+
+          <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+          <p class="fineprint">
+            Versi demo lokal, bukan autentikasi server.
+            Jangan gunakan kata sandi asli atau informasi rahasia.
+          </p>
+        </div>
+
+        <div id="welcomePanel" hidden>
+          <div class="feature-icon">💗</div>
+          <h2 id="welcomeTitle">Halo!</h2>
+          <p class="small">Kamu berhasil masuk ke sesi demo.</p>
+          <button class="primary" id="logoutButton" type="button">
+            KELUAR
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <section class="dashboard" id="adminPanel">
+      <div class="eyebrow">DEMO ONLY</div>
+      <h2>Daftar akun pada browser ini</h2>
+      <p class="small">
+        Data ini hanya berada di penyimpanan lokal browser.
+        Bukan daftar pengguna global dan bukan panel admin server.
+      </p>
+      <div id="accountList"></div>
+      <button class="muted-button" id="clearButton" type="button">
+        Hapus data demo lokal
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    ASUPAN KIMOCHI © <span id="year"></span> · Community Portal Demo
+  </footer>
+
+  <script>
+    /*
+      DEMO LOKAL SAJA.
+
+      Data akun disimpan pada browser perangkat ini.
+      Tidak ada data yang dikirim ke server.
+      Jangan menyimpan kata sandi asli di localStorage.
+
+      Untuk versi online, gunakan penyedia autentikasi seperti
+      Supabase Auth dan database dengan kebijakan akses yang aman.
+    */
+
+    const $ = (id) => document.getElementById(id);
+
+    const STORAGE_KEY = "asupan_kimochi_demo_v1";
+
+    let mode = "login";
+    let activeEmail = null;
+
+    $("year").textContent = new Date().getFullYear();
+
+    function readAccounts() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return Array.isArray(data) ? data : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveAccounts(accounts) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+    }
+
+    function showNotice(message, type = "error") {
+      const box = $("notice");
+      box.textContent = message;
+      box.className = "notice show " + type;
+    }
+
+    function clearNotice() {
+      $("notice").className = "notice";
+      $("notice").textContent = "";
+    }
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      const registering = mode === "register";
+
+      $("loginTab").classList.toggle("active", !registering);
+      $("registerTab").classList.toggle("active", registering);
+
+      $("formTitle").textContent = registering ? "Create account" : "Welcome back!";
+      $("formSubtitle").textContent = registering
+        ? "Buat akun demo baru."
+        : "Masuk ke akun demo kamu.";
+
+      $("nameField").hidden = !registering;
+      $("name").required = registering;
+      $("password").autocomplete = registering
+        ? "new-password"
+        : "current-password";
+
+      $("submitButton").textContent = registering
+        ? "BUAT AKUN DEMO →"
+        : "MASUK SEKARANG →";
+
+      clearNotice();
+    }
+
+    function renderAccounts() {
+      const list = $("accountList");
+      const accounts = readAccounts();
+
+      list.replaceChildren();
+
+      if (!accounts.length) {
+        const empty = document.createElement("p");
+        empty.className = "small";
+        empty.textContent = "Belum ada akun demo di browser ini.";
+        list.appendChild(empty);
+        return;
+      }
+
+      accounts.forEach((account) => {
+        const row = document.createElement("div");
+        row.className = "account-row";
+
+        const details = document.createElement("div");
+        const name = document.createElement("strong");
+        const email = document.createElement("p");
+
+        name.textContent = account.name || "Member";
+        email.className = "small";
+        email.textContent = account.email;
+
+        details.append(name, email);
+        row.appendChild(details);
+        list.appendChild(row);
+      });
+    }
+
+    function enterSession(account) {
+      activeEmail = account.email;
+      $("authForm").hidden = true;
+      $("welcomePanel").hidden = false;
+      $("welcomeTitle").textContent = "Halo, " + (account.name || "Member") + "!";
+      $("adminPanel").style.display = "block";
+      renderAccounts();
+    }
+
+    function logout() {
+      activeEmail = null;
+      $("authForm").hidden = false;
+      $("welcomePanel").hidden = true;
+      $("accountForm").reset();
+      setMode("login");
+      $("adminPanel").style.display = "none";
+    }
+
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("registerTab").addEventListener("click", () => setMode("register"));
+
+    $("togglePassword").addEventListener("click", () => {
+      const input = $("password");
+      const visible = input.type === "password";
+      input.type = visible ? "text" : "password";
+      $("togglePassword").textContent = visible ? "SEMBUNYI" : "LIHAT";
+    });
+
+    $("accountForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearNotice();
+
+      const email = $("email").value.trim().toLowerCase();
+      const password = $("password").value;
+      const accounts = readAccounts();
+
+      if (password.length < 8) {
+        showNotice("Kata sandi demo harus minimal 8 karakter.");
+        return;
+      }
+
+      if (mode === "register") {
+        const name = $("name").value.trim();
+
+        if (!name) {
+          showNotice("Masukkan nama panggilan.");
+          return;
+        }
+
+        if (accounts.some((account) => account.email === email)) {
+          showNotice("Email ini sudah terdaftar pada demo browser ini.");
+          return;
+        }
+
+        /*
+          Demi keamanan, demo ini TIDAK menyimpan kata sandi.
+          Karena itu, akun baru hanya menjadi contoh pendaftaran,
+          dan login kata sandi memerlukan backend autentikasi sungguhan.
+        */
+
+        const account = {
+          name,
+          email,
+          createdAt: new Date().toISOString()
+        };
+
+        accounts.push(account);
+        saveAccounts(accounts);
+
+        showNotice(
+          "Pendaftaran demo dicatat di browser ini. Login akun nyata membutuhkan backend autentikasi.",
+          "success"
+        );
+
+        $("accountForm").reset();
+        renderAccounts();
+        return;
+      }
+
+      showNotice(
+        "Login server belum diaktifkan. Sambungkan Supabase Auth untuk login sungguhan."
+      );
+    });
+
+    $("logoutButton").addEventListener("click", logout);
+
+    $("clearButton").addEventListener("click", () => {
+      const confirmed = confirm("Hapus seluruh data demo dari browser ini?");
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      renderAccounts();
+      logout();
+    });
+
+    renderAccounts();
+  </script>
+</body>
+</html>
+```
